@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style = "background-color: #111111">
+    <button>click me!</button>
+    <button id="red">red</button>
+    <button id="green">green</button>
+    <button id="purple">purple</button>
+    <button id="yellow">yellow</button>
+    <button id="blue">blue</button>
+    <button id="pink">pink</button>
+    <button id="cyan">cyan</button>
+
+</body>
+<script>
+    // class React{
+    //     constructor(){
+    //         this.libarary = "React";
+    //         this.server = 'https://localhost:300'
+
+    //         //requrement
+    //         document.querySelector('button')
+    //                 .addEventListener('click',this.handleClick.bind(this))
+    //     }
+    //     handleClick(){
+    //         console.log('button clicked');
+    //         console.log(this);//React {libarary: 'React', server: 'https://localhost:300'}
+    //     }
+    // }
+    // const app = new React();
+
+
+    // function setUsername(username){
+    //     this.username = username;
+    // }
+    // function createUser (email, password){
+    //     this.email = email;
+    //     this.password = password;
+    // }
+    // const userName = new setUsername('yogesh');
+    // const userDetails = new createUser('1413002yogesh@gamil.com', 23049534);
+    // Object.setPrototypeOf(userDetails, userName);
+    // console.log(userDetails)
+
+    class userName {
+        constructor(username){
+            this.username = 'mr '+username;
+        }
+    }
+    class userDetails extends userName{
+        constructor(username, email, phoneNumber){
+            super(username);// it's work Call it's give current context to parent class .
+            this.email = email
+            this.phoneNumber = phoneNumber;
+            this.orderChai = function(){
+                console.log('chai nhi bani')
+            }
+        }
+    }
+    const yogesh = new userDetails('yogesh', 'yogesh14132@gmil.com', 993243424);
+    console.log(yogesh)
+
+
+
+
+    // Hidden properties Of OBJECT:-
+    console.log(Object.getOwnPropertyDescriptor(yogesh,"username"))
+
+    Object.defineProperty(yogesh, 'username',{
+        writable: false,
+        enumerable: false,
+    })
+    yogesh.username = 'deepanshu'
+    console.log(yogesh.username)
+    for (let [key,value] of Object.entries(yogesh)) {
+        if(typeof value !== 'function'){
+            console.log(key+": "+value)  
+        }
+    }
+
+
+
+// Getter and Setter
+
+    // Set ke variable or constructor ke variable ke keys ko same name se decalre nhi kar sakte 
+    // Error: maximum call stack size exceeded.
+    class user{
+        constructor(email, password){
+            this._email = email;
+            this._password = password;
+        }
+        get email(){
+            return this._email.toUpperCase();
+        }
+        set email(value){
+            this.email = value
+        }
+        get password(){
+            return this._password.toUpperCase();
+        }
+        set password(value){
+            this.password = value;
+        }
+    }
+    const hitesh = new user('hitesh@gmail.com', 'gyodkjflscm')
+    console.log(hitesh.password)//mai nhi batyunga...
+    console.log(hitesh.email)//mai nhi batyunga...
+
+
+
+
+    // By Object Properties:- (Getters and Setters)
+
+    function user213(email, password){
+        this._email = email;
+        this._password = password;
+
+        Object.defineProperty (this, 'email', {
+            get: function(){
+                return this._email.toUpperCase()
+            },
+            set: function(value){
+                this._email = value;
+            }
+        })
+
+        Object.defineProperty(this, 'password', {
+            get: function(){
+                return this._password+".0000000000"
+            },
+            set: function(value){
+                this._password = value;
+            }
+        })
+    }
+    const rogi = new user213('rogiNo-321', 45464560)
+    console.log(rogi.email)
+    console.log(rogi.password)
+
+
+
+    // Lexical Scoping
+
+    // function outer(){
+    //     let username = "yogesh"
+    //     function inner(){
+    //         console.log(username);
+    //     }
+    //     inner();
+    // }
+    // outer();//yogesh
+    // console.log(username)//username is not defined
+
+
+    // Closure
+    // when return.
+    function outer(){
+        let username = "yogesh"
+        function inner(){
+            console.log(username);
+        }
+        return inner;//return function reference........
+    }
+    let innerValue = outer();//outer function is execute so function execution context is vanish So here come's Memory heap role it's bind the outer function scope.........its add Lexical scoping.....not only function executional context..
+    console.log(innerValue())
+
+
+
+
+</script>
+<script>
+    const redButton = document.querySelector('#red');
+    const greenButton = document.querySelector('#green');
+    const purpleBut = document.querySelector('#purple');
+    const yellowBut = document.querySelector('#yellow');
+    const blueBut = document.querySelector('#blue');
+    const pinkBut = document.querySelector('#pink');
+    const cyanBut = document.querySelector('#cyan');
+
+    const colorArr=[redButton, greenButton, purpleBut, yellowBut, blueBut, pinkBut, cyanBut]
+
+    function container(color){
+        function background(){
+            document.body.style.backgroundColor=color;
+        }
+        return background;
+    }
+
+    colorArr.forEach((i)=>{
+        i.onclick = container(i.id);
+    })
+
+    // redButton.onclick = container(redButton.id);
+    // greenButton.onclick = container('green');
+
+</script>
+</html>
